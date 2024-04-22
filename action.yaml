@@ -99,7 +99,10 @@ runs:
       working-directory: ${{ inputs.working-directory }}
       run: |
         export STATICCHECK_CACHE="${{ runner.temp }}/staticcheck"
-        go install "honnef.co/go/tools/cmd/staticcheck@${version}"
+        git clone https://github.com/amarpal/go-tools.git "$HOME/go-tools/"
+        cd "$HOME/go-tools/cmd"
+        go install ./staticcheck
+        cd -
         echo "::add-matcher::$GITHUB_ACTION_PATH/matchers.json"
         write_output() {
           if [ -z "${file}" ]; then
